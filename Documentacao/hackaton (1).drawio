@@ -1,0 +1,40 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="dgm3pEJ5b094ZePGtBpd">
+    <mxGraphModel dx="1720" dy="1029" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="SeVIBf1pxX1skJdQlQxo-4" parent="1" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=50;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;" value="Voluntário" vertex="1">
+          <mxGeometry height="230" width="160" x="20" y="295" as="geometry" />
+        </mxCell>
+        <mxCell id="SeVIBf1pxX1skJdQlQxo-5" parent="SeVIBf1pxX1skJdQlQxo-4" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;whiteSpace=wrap;" value="&lt;div&gt;- idVoluntario (int) PK&lt;/div&gt;- nome(String)&lt;div&gt;- senha&lt;br&gt;&lt;div&gt;- email (String)&lt;/div&gt;&lt;div&gt;- disponiblidade(field)&lt;/div&gt;&lt;div&gt;- contexto na qual ele pode ajudar(string)&lt;/div&gt;&lt;div&gt;- Habilidades(lista)&lt;/div&gt;&lt;div&gt;- ações em que ele participa (Lista)&lt;/div&gt;&lt;div&gt;- acoes Fk&lt;br&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="180" width="160" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="SeVIBf1pxX1skJdQlQxo-7" parent="1" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=50;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;" value="Ações" vertex="1">
+          <mxGeometry height="370" width="250" x="410" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="SeVIBf1pxX1skJdQlQxo-8" parent="SeVIBf1pxX1skJdQlQxo-7" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;whiteSpace=wrap;" value="&lt;div&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 102));&quot;&gt;- idAcao (int) PK&lt;/font&gt;&lt;/div&gt;- nomeAcao(String)&lt;div&gt;- idInstituição fk&lt;/div&gt;&lt;div&gt;- tipoAcao (Emergência,Vulnerabilidade social ou desastre) - (field)&lt;/div&gt;&lt;div&gt;- quantidadeMinimaVoluntarios(int)&lt;/div&gt;&lt;div&gt;- quantidadeMaximaVoluntarios(int)&lt;/div&gt;&lt;div&gt;- estado(string)&lt;/div&gt;&lt;div&gt;- cidade(string)&lt;/div&gt;&lt;div&gt;- bairro(string)&lt;/div&gt;&lt;div&gt;- descricaoAcão(string)&lt;/div&gt;&lt;div&gt;- Emergencia(bool)&lt;/div&gt;&lt;div&gt;- priorização(field)&lt;/div&gt;&lt;div&gt;- image - (upload)&amp;nbsp;&lt;/div&gt;&lt;div&gt;- voluntarios fk&amp;nbsp;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="320" width="250" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="SeVIBf1pxX1skJdQlQxo-15" parent="1" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;" value="participar" vertex="1">
+          <mxGeometry height="100" width="100" x="270" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="SeVIBf1pxX1skJdQlQxo-16" edge="1" parent="1" source="SeVIBf1pxX1skJdQlQxo-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="SeVIBf1pxX1skJdQlQxo-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="SeVIBf1pxX1skJdQlQxo-17" edge="1" parent="1" source="SeVIBf1pxX1skJdQlQxo-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=-0.031;entryDx=0;entryDy=0;entryPerimeter=0;" target="SeVIBf1pxX1skJdQlQxo-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="SeVIBf1pxX1skJdQlQxo-20" parent="1" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=50;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=0;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;" value="Institução" vertex="1">
+          <mxGeometry height="230" width="160" x="440" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="SeVIBf1pxX1skJdQlQxo-21" parent="SeVIBf1pxX1skJdQlQxo-20" style="align=left;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;fontSize=12;verticalAlign=top;resizable=0;rotatable=0;part=1;html=1;whiteSpace=wrap;" value="&lt;div&gt;- idInstituição (int) PK&lt;/div&gt;- nomeInstuitcao (string)&lt;div&gt;- emailInstituição (String)&lt;/div&gt;&lt;div&gt;- acoes fk&lt;/div&gt;&lt;div&gt;- voluntarios fk&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="180" width="160" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="SeVIBf1pxX1skJdQlQxo-23" edge="1" parent="1" source="SeVIBf1pxX1skJdQlQxo-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.425;entryY=0.997;entryDx=0;entryDy=0;entryPerimeter=0;" target="SeVIBf1pxX1skJdQlQxo-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
