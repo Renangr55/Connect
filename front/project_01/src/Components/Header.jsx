@@ -7,14 +7,9 @@ import { useEffect } from "react";
 //   const [connectUser, setConnectUser] = useState(null);
 // }, 1000);
 
-export function Header() {
+export function Header({username}) {
   return (
     <header className="flex justify-evenly gap-250 items-center text-center max-w-screen">
-      <img
-        className="h-20 w-50 items-center"
-        src={connect_image}
-        alt="Image Connect"
-      ></img>
       <nav className="font-medium text-2xl">
         <h1>Renan Gabriel</h1>
       </nav>
