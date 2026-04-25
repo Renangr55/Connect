@@ -27,9 +27,17 @@ export function Login() {
           name="psw"
           required
         ></input>
-        <section className="">
-          <button>Login</button>
-          <button>Não tenho cadastro</button>
+        <label className="relative inline-block w-60 h-34 ">
+          <input className="opacity-0 w-0 h-0" type="checkbox"></input>
+          <span className="absolute cursor-pointer top-0 left-0 right-0 bottom-0 bg-[#ccc] "></span>
+        </label>
+        <section className="flex flex-col text-center items-center gap-3">
+          <button className="h-10 font-bold w-50 cursor-pointer ease-in-out hover:scale-110 bg-black">
+            Login
+          </button>
+          <button className="h-10 border w-50 cursor-pointer ease-in-out hover:scale-110 border-white">
+            Não tenho cadastro
+          </button>
         </section>
       </form>
     </div>
