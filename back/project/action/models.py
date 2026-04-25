@@ -9,6 +9,9 @@ class Address(models.Model):
     street = models.CharField(max_length=150)
     number = models.CharField(max_length=150)
     description_address = models.TextField(blank=True)
+    
+    def __str__(self):
+        return f"{self.country} - {self.city} - {self.neighborhood} - {self.street} - {self.number} - {self.description_address}"
 
 class Action (models.Model):
     title = models.CharField(max_length=150)
@@ -18,5 +21,8 @@ class Action (models.Model):
     localization = models.OneToOneField(Address, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="action/",null=True, blank=True)
     date = models.DateTimeField()
+    
+    def __str__(self):
+        return self.title
 
 

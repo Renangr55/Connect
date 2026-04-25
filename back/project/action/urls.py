@@ -7,7 +7,7 @@ from .views import (
                     )
 urlpatterns = [
     path('api/action/list_create_view',ActionListCreateAPIView.as_view()),
-    path('api/action/retrive_update_delete',ActionRetrieveUpdateDestroyAPIView.as_view()),
+    path('api/action/retrive_update_delete/<int:pk>/',ActionRetrieveUpdateDestroyAPIView.as_view()),
     path('api/address/list_create_view',AddressListCreateAPIView.as_view()),
-    path('api/address/retrive_update_delete',AddressRetrieveUpdateDestroyAPIView.as_view())
+    path('api/address/retrive_update_delete/<int:pk>/',AddressRetrieveUpdateDestroyAPIView.as_view())
 ]

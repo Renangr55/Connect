@@ -6,5 +6,5 @@ from .views import (
 
 urlpatterns = [
     path("api/subscription/list_create_view",SubscriptionListCreateAPIView.as_view()),
-    path("api/subscription/retrive_update_delete",SubscriptionRetrieveUpdateDestroyAPIView.as_view())
+    path("api/subscription/retrive_update_delete/<int:pk>/",SubscriptionRetrieveUpdateDestroyAPIView.as_view())
 ]

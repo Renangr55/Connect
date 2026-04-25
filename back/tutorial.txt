@@ -17,5 +17,6 @@ py manage.py migrate
 -rodar o servidor
 py manage.py runserver
 
+(Não precisa se ja estiver com o banco no back)
 -puxar cidades e paises
 python manage.py cities_light
