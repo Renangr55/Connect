@@ -1,0 +1,21 @@
+
+-criar env
+py -m venv .env
+
+-ativar env
+ ./env/Scripts/activate
+
+-instalar depedências
+pip freeze -r requirements.txt
+
+-fazer migrações
+py manage.py makemigrations
+
+-aplicar migrações
+py manage.py migrate
+
+-rodar o servidor
+py manage.py runserver
+
+-puxar cidades e paises
+python manage.py cities_light
