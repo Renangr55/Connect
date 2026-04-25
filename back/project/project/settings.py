@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'action',
     'subscription',
     'cities_light',
-    'skills'
+    'skills',
+    'volunteer',
+    'notification'
 ]
 
 REST_FRAMEWORK = {
@@ -59,6 +61,8 @@ AUTH_USER_MODEL = 'user.CustomUser'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = 'media/'
+
+CITIES_LIGHT_INCLUDE_COUNTRIES = ['BR']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
