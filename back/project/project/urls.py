@@ -35,6 +35,7 @@ urlpatterns = [
     path('',include('user.urls')),
     path('', include('volunteer.urls')),
     path('',include('notification.urls')),
+    path('',include('ai.urls')),
     
     #auth
     path('api/token/token_obtain',TokenObtainPairView.as_view(), name="token_obtain_pairview"),
