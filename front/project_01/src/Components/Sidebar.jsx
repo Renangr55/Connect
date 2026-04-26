@@ -10,10 +10,10 @@ import { CgProfile } from "react-icons/cg";
 
 function Sidebar() {
   return (
-    <div className="w-20 min-h-screen m-5">
+    <div className="w-full min-h-screen m-5">
       <section className="flex flex-col">
-        <img className="w-30 h-20" src={image_connect}></img>
-        <img className="w-30 h-20" src={image_people}></img>
+        <img className="w-50 h-20" src={image_connect}></img>
+        <img className="w-50 h-20" src={image_people}></img>
       </section>
       <nav className="flex flex-col">
         <Link
