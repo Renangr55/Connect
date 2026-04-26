@@ -16,6 +16,8 @@
     "@material/switch": "^14.0.0",
     "@mui/material": "^9.0.0",
     "@tailwindcss/vite": "^4.2.4",
+    "axios": "^1.15.2",
+    "jwt-decode": "^4.0.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-hook-form": "^7.73.1",
