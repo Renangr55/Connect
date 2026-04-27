@@ -11,31 +11,42 @@ export function ActionsCRUD() {
   const [preview, setPreview] = useState(null);
   const [editingId, setEditingId] = useState(null);
 
-  const token = localStorage.getItem("access");
+  const token = localStorage.getItem("access_token");
 
-  // 🔹 LISTAR
+  // =========================
+  // LISTAR ACTIONS
+  // =========================
   async function fetchActions() {
-    const res = await axios.get(
-      "http://localhost:8000/api/action/list_create_view",
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
+    try {
+      const res = await axios.get(
+        "http://localhost:8000/api/action/list_create_view",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-    setActions(res.data.results || res.data);
+      setActions(res.data.results || res.data);
+    } catch (err) {
+      console.error("❌ ERROR FETCHING ACTIONS:", err.response?.data || err.message);
+    }
   }
 
   useEffect(() => {
     fetchActions();
   }, []);
 
-  // 🔹 INPUT
+  // =========================
+  // INPUTS
+  // =========================
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
   function handleImage(e) {
     const file = e.target.files[0];
+
     setForm({ ...form, image: file });
 
     if (file) {
@@ -43,7 +54,9 @@ export function ActionsCRUD() {
     }
   }
 
-  // 🔹 SUBMIT
+  // =========================
+  // CREATE / UPDATE
+  // =========================
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -58,7 +71,7 @@ export function ActionsCRUD() {
     try {
       if (editingId) {
         await axios.patch(
-          `http://localhost:8000/api/action/retrive_update_delete/${editingId}/`,
+          `http://localhost:8000/api/action/retrieve_update_destroy/${editingId}/`,
           formData,
           {
             headers: {
@@ -83,35 +96,53 @@ export function ActionsCRUD() {
       setForm({ title: "", description: "", image: null });
       setPreview(null);
       setEditingId(null);
+
       fetchActions();
     } catch (err) {
-      console.error(err.response?.data);
+      console.error("❌ ERROR SUBMIT:", err.response?.data || err.message);
     }
   }
 
-  // 🔹 EDIT
+  // =========================
+  // EDIT
+  // =========================
   function handleEdit(action) {
     setForm({
       title: action.title,
       description: action.description,
       image: null,
     });
-    setPreview(`http://localhost:8000${action.image}`);
+
+    setPreview(
+      action.image ? `http://localhost:8000${action.image}` : null
+    );
+
     setEditingId(action.id);
   }
 
-  // 🔹 DELETE
+  // =========================
+  // DELETE
+  // =========================
   async function handleDelete(id) {
-    await axios.delete(
-      `http://localhost:8000/api/action/retrive_update_delete/${id}/`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
+    try {
+      await axios.delete(
+        `http://localhost:8000/api/action/retrieve_update_destroy/${id}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-    fetchActions();
+      fetchActions();
+    } catch (err) {
+      console.error("❌ DELETE ERROR:", err.response?.data || err.message);
+    }
   }
 
+  // =========================
+  // UI
+  // =========================
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <h1 className="text-3xl font-bold mb-6">Actions Dashboard</h1>
@@ -146,8 +177,8 @@ export function ActionsCRUD() {
         {preview && (
           <img
             src={preview}
-            alt="preview"
             className="mt-3 h-40 w-full object-cover rounded-lg"
+            alt="preview"
           />
         )}
 
@@ -164,8 +195,13 @@ export function ActionsCRUD() {
             className="bg-white rounded-2xl shadow-md overflow-hidden"
           >
             <img
-              src={`http://localhost:8000${action.image}`}
+              src={
+                action.image
+                  ? `http://localhost:8000${action.image}`
+                  : "/placeholder.png"
+              }
               className="h-40 w-full object-cover"
+              alt=""
             />
 
             <div className="p-4">

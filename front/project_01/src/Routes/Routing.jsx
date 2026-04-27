@@ -58,7 +58,7 @@ function Routing() {
         />
 
         <Route
-          path="/actions"
+          path="/actions/"
           element={
             <PrivateRoute>
               <Actions />
