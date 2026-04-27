@@ -38,7 +38,7 @@ export function Login() {
 
       // 👇 salva username (ESSENCIAL)
       localStorage.setItem("username", data.username);
-
+      console.log(localStorage.getItem("access_token"));
       navigate("/home");
     } catch (error) {
       console.error(error);

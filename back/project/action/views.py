@@ -33,6 +33,8 @@ class ActionListCreateAPIView(ListCreateAPIView):
             "message": "Error to create",
             "errors": serializer.errors # Detalhes da validação
         }, status=status.HTTP_400_BAD_REQUEST)
+        
+
    
         
 

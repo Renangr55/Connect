@@ -16,18 +16,31 @@ export function Home() {
   useEffect(() => {
     async function fetchActions() {
       try {
+        const token = localStorage.getItem("access_token");
+
+        console.log("TOKEN:", token);
+
         const response = await axios.get(
-          "http://localhost:8000/api/action/list_create_view/"
+          "http://localhost:8000/api/action/list_create_view",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
+
+        console.log("RESPONSE:", response.data);
 
         const data = response.data.results || response.data;
         setActions(data);
+
       } catch (error) {
-        console.error("Error when searching actions: ", error);
+        console.error("Error when searching actions:", error);
       } finally {
         setLoading(false);
       }
     }
+
     fetchActions();
   }, []);
 

@@ -5,6 +5,8 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import VolunteerSerializer,AvaliabilitySerializer
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.views import APIView
+
 
 # Volunteer
 class VolunteerListCreateAPIView(ListCreateAPIView):
@@ -97,32 +99,51 @@ class AvaliabilityRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
                 {"error":"object not found or acess error"},
                 status=status.HTTP_404_NOT_FOUND
             )
+            
+    def patch(self, request, *args, **kwargs):
+        volunteer = Volunteer.objects.get(user=request.user)
+        serializer = self.get_serializer(volunteer, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(serializer.errors)
     
-class AvaliabilityListCreateAPIView(RetrieveUpdateDestroyAPIView):
+class AvaliabilityListCreateAPIView(ListCreateAPIView):
     queryset = Avaliability.objects.all()
     permission_classes = [IsAuthenticated]
     serializer_class = AvaliabilitySerializer
-    lookup_field = 'pk'
-    
+
+    def perform_create(self, serializer):
+        volunteer, created = Volunteer.objects.get_or_create(
+            user=self.request.user
+        )
+        serializer.save(volunteer=volunteer)
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        
+
         if not serializer.is_valid():
             return Response({
-                "status":"error",
-                "message":"Error to save",
+                "status": "error",
+                "message": "Error to save",
                 "errors": serializer.errors
-            },status=status.HTTP_400_BAD_REQUEST)
-        
-        self.perform_create(serializer)
-        return Response({
-            "status":"sucess",
-            "message":"created with sucess!",
-        }, status=status.HTTP_201_CREATED)  
+            }, status=status.HTTP_400_BAD_REQUEST)
 
-    
-    
-    
+        self.perform_create(serializer)
+
+        return Response({
+            "status": "success",
+            "message": "created with success!"
+        }, status=status.HTTP_201_CREATED)
+
+class VolunteerMeView(RetrieveUpdateDestroyAPIView):
+    serializer_class = VolunteerSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return Volunteer.objects.get(user=self.request.user)
     
     
 
