@@ -86,7 +86,7 @@ export function Chatbot(){
           {loading && (
             <div className="flex justify-start">
               <div className="bg-white px-4 py-3 rounded-xl shadow">
-                digitando...
+                Typing...
               </div>
             </div>
           )}
@@ -107,7 +107,7 @@ export function Chatbot(){
             <button
               onClick={sendMessage}
               disabled={loading}
-              className="bg-blue-600 text-white px-4 py-2 rounded-full disabled:opacity-50"
+              className="bg-linear-to-r from-[#188DA8] to-[#72519C] text-white px-4 py-2 rounded-full disabled:opacity-50"
             >
               ➤
             </button>
