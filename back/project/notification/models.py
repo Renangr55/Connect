@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 
 # Create your models here.
+#Notification  models
 class Notification (models.Model):
     TYPE_CHOICE = [
         ('request', 'Request'),

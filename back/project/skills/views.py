@@ -38,9 +38,6 @@ class SkillListCreateAPIView(ListCreateAPIView):
         )
 
 
-# =========================
-# SKILL DETAIL
-# =========================
 class SkillRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Skills.objects.all()
     permission_classes = [IsAuthenticated]

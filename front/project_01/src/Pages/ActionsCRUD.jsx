@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useEffect } from "react";
 
 export default function ActionsCRUD() {
   const token = localStorage.getItem("access");
@@ -24,7 +25,6 @@ export default function ActionsCRUD() {
 
   const [preview, setPreview] = useState(null);
 
-  const token = localStorage.getItem("access_token");
 
   // =========================
   // LISTAR ACTIONS

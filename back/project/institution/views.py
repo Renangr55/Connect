@@ -14,11 +14,11 @@ class InstitutionListCreateAPIView(ListCreateAPIView):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         
-        # Valida os dados antes de tentar salvar
+        
         if serializer.is_valid():
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
-            # Resposta de Sucesso
+          
             return Response({
                 "message": "Create with sucess",
                 "data": serializer.data
@@ -27,7 +27,7 @@ class InstitutionListCreateAPIView(ListCreateAPIView):
         # return the error
         return Response({
             "message": "Error to create",
-            "errors": serializer.errors # Detalhes da validação
+            "errors": serializer.errors # validate details
         }, status=status.HTTP_400_BAD_REQUEST)
    
         

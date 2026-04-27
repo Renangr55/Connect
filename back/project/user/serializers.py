@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import CustomUser
 from volunteer.models import Volunteer
-from institution.models import Institution  # 👈 importa
+from institution.models import Institution  
 
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,7 +18,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
             role=validated_data['role']
         )
 
-        # 🔥 lógica por role
+        # (divindindo por role)
         if user.role == "volunteer":
             Volunteer.objects.create(user=user)
 

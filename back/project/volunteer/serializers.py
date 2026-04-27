@@ -17,10 +17,8 @@ class AvaliabilitySerializer(serializers.ModelSerializer):
 
 
 class VolunteerSerializer(serializers.ModelSerializer):
-    # 👇 leitura bonita
     skills = SkillSerializer(many=True, read_only=True)
 
-    # 👇 escrita (manda ids)
     skills_ids = serializers.PrimaryKeyRelatedField(
         queryset=Skills.objects.all(),
         many=True,

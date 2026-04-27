@@ -3,6 +3,8 @@ from django.conf import settings
 
 
 # Create your models here.
+
+# Não deu tempo de aplicar a tabela da ia para armazenas a message do usuario e a resposta
 class ChatMessage(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -21,5 +23,5 @@ class Recommendation(models.Model):
     action = models.ForeignKey('action.Action', on_delete=models.CASCADE, related_name="recommendations")
     score = models.FloatField()
     
-    reason = models.TextField(blank=True, null=True)  # 🔥 explicação da IA
+    reason = models.TextField(blank=True, null=True)  
     created_at = models.DateTimeField(auto_now_add=True)

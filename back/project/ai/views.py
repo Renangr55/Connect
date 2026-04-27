@@ -5,7 +5,7 @@ from rest_framework.response import Response
 
 
 # Create your views here.
-
+# IA response for my API
 class ChatView(APIView):
     def post(self, request):
         text = request.data.get('message')
@@ -22,3 +22,4 @@ class ChatView(APIView):
                 "response": str(response)
             }
         })
+        

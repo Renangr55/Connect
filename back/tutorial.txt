@@ -1,12 +1,12 @@
 
 -criar env
-py -m venv .env
+py -m venv .venv
 
 -ativar env
- ./env/Scripts/activate
+ ./venv/Scripts/activate
 
 -instalar depedências
-pip freeze -r requirements.txt
+pip install -r requirements.txt
 
 -fazer migrações
 py manage.py makemigrations
@@ -18,5 +18,7 @@ py manage.py migrate
 py manage.py runserver
 
 (Não precisa se ja estiver com o banco no back)
--puxar cidades e paises
+-puxar cidades e paises para o banco de dados, nas configs eu filtrei somente por paises do brasil
 python manage.py cities_light
+
+Você precisa cadastrar tudo, por que não subimos o nosso banco

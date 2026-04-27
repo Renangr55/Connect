@@ -20,7 +20,6 @@ class CustomTokenSerializer(TokenObtainPairSerializer):
     def get_token(cls, user):
         token = super().get_token(user)
 
-        # 👇 coloca dentro do token
         token['username'] = user.username
         token['role'] = user.role
 
@@ -29,7 +28,6 @@ class CustomTokenSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
 
-        # 👇 coloca na resposta também
         data['username'] = self.user.username
         data['role'] = self.user.role
 
@@ -40,9 +38,7 @@ class CustomTokenView(TokenObtainPairView):
     serializer_class = CustomTokenSerializer
 
 
-# =========================
-# 👤 USERS
-# =========================
+
 class CustomUserListCreateAPIView(ListCreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
