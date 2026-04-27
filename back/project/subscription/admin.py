@@ -4,6 +4,6 @@ from .models import Subscription
 # Register your models here.
 @admin.register(Subscription)
 class SubscriptionAdmin(admin.ModelAdmin):
-    list_display = ('userID','status','message','created_at')
+    list_display = ('user','status','message','created_at','action','volunteer')
     search_fields = ('userID','status')
   
