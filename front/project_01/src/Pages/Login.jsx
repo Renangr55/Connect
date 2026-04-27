@@ -155,7 +155,7 @@ export function Login({
             }}
             className="h-10 border w-50 cursor-pointer transition delay-100 duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-[#279A94] border-white"
           >
-            I don't have login
+            I don't have login!
           </button>
         </section>
       </form>
