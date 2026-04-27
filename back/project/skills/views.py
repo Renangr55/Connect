@@ -1,14 +1,15 @@
-
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from .models import Skills
 from rest_framework.permissions import IsAuthenticated
-from .serializers import SkillsSerializer
 from rest_framework import status
 from rest_framework.response import Response
 
+from .models import Skills
+from .serializers import SkillsSerializer
 
 
-# Skills
+# =========================
+# SKILLS LIST / CREATE
+# =========================
 class SkillListCreateAPIView(ListCreateAPIView):
     queryset = Skills.objects.all()
     permission_classes = [IsAuthenticated]
@@ -16,56 +17,63 @@ class SkillListCreateAPIView(ListCreateAPIView):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        
-        # Valida os dados antes de tentar salvar
+
         if serializer.is_valid():
             self.perform_create(serializer)
-            headers = self.get_success_headers(serializer.data)
-            # Resposta de Sucesso
-            return Response({
-                "message": "Create with sucess",
-                "data": serializer.data
-            }, status=status.HTTP_201_CREATED, headers=headers)
-        
-        # return the error
-        return Response({
-            "message": "Error to create",
-            "errors": serializer.errors # Detalhes da validação
-        }, status=status.HTTP_400_BAD_REQUEST)
-   
-        
 
-    
+            return Response(
+                {
+                    "message": "Created successfully",
+                    "data": serializer.data
+                },
+                status=status.HTTP_201_CREATED
+            )
+
+        return Response(
+            {
+                "message": "Error creating skill",
+                "errors": serializer.errors
+            },
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+
+# =========================
+# SKILL DETAIL
+# =========================
 class SkillRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Skills.objects.all()
     permission_classes = [IsAuthenticated]
     serializer_class = SkillsSerializer
-    lookup_field = 'pk'
-
-    
-    def destroy(self, request, *args, **kwargs):
-        try:
-            isinstance = self.get_object()
-            self.perform_destroy(isinstance)
-            return Response(
-                {"message","Object deleted with sucess!"},
-                status=status.HTTP_200_OK
-            )
-            
-        except Exception as e:
-            return Response(
-                {'error':'Error to delete the object','detail': str(e)},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+    lookup_field = "pk"
 
     def retrieve(self, request, *args, **kwargs):
         try:
             instance = self.get_object()
             serializer = self.get_serializer(instance)
-            return Response (serializer.data)
+            return Response(serializer.data)
+
         except Exception:
-            return Response (
-                {"error":"object not found or acess error"},
+            return Response(
+                {"error": "Skill not found"},
                 status=status.HTTP_404_NOT_FOUND
             )
 
+    def destroy(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+            self.perform_destroy(instance)
+
+            return Response(
+                {"message": "Skill deleted successfully"},
+                status=status.HTTP_200_OK
+            )
+
+        except Exception as e:
+            return Response(
+                {
+                    "error": "Error deleting skill",
+                    "detail": str(e)
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )

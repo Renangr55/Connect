@@ -1,96 +1,264 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../Components/Sidebar";
 import Footer from "../Components/Footer";
-import { Mail, Plus, ChevronDown } from "lucide-react";
+import axios from "axios";
 
 const Profile = () => {
+  const [volunteer, setVolunteer] = useState(null);
+
+  const [day, setDay] = useState("");
+  const [period, setPeriod] = useState("");
+  const [avaliabilities, setAvaliabilities] = useState([]);
+
+  const [skillInput, setSkillInput] = useState("");
+  const [skills, setSkills] = useState([]);
+
+  const token = localStorage.getItem("access_token");
+
+  // =========================
+  // LOAD PROFILE
+  // =========================
+  useEffect(() => {
+    const fetchVolunteer = async () => {
+      try {
+        console.log("📡 GET /api/volunteer/me/");
+
+        const response = await axios.get(
+          "http://localhost:8000/api/volunteer/me/",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log("✅ PROFILE RESPONSE:", response.data);
+
+        setVolunteer(response.data);
+        setAvaliabilities(response.data.avaliabilities || []);
+        setSkills(response.data.skills || []);
+      } catch (error) {
+        console.error("❌ PROFILE ERROR:", error);
+      }
+    };
+
+    fetchVolunteer();
+  }, []);
+
+  // =========================
+  // SAVE SKILLS
+  // =========================
+  const saveSkills = async (updatedSkills) => {
+    try {
+      const payload = {
+        skills_ids: updatedSkills.map((s) => s.id),
+      };
+
+      console.log("📤 PATCH SKILLS PAYLOAD:", payload);
+
+      const res = await axios.patch(
+        "http://localhost:8000/api/volunteer/me/",
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("✅ SKILLS SAVED:", res.data);
+    } catch (error) {
+      console.error(
+        "❌ ERROR SAVING SKILLS:",
+        error.response?.data || error.message
+      );
+    }
+  };
+
+  // =========================
+  // ADD SKILL
+  // =========================
+  const addSkill = async () => {
+    if (!skillInput) return;
+
+    const payload = {
+      name: skillInput,
+      skills_description: "sem descrição", // ou "" se aceitar
+    };
+
+    try {
+      // 1. cria no backend
+      const response = await axios.post(
+        "http://localhost:8000/api/skill/list_create_view",
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const newSkill = response.data.data || response.data;
+
+      // 2. atualiza estado com ID real
+      const updated = [...skills, newSkill];
+
+      console.log("➕ ADD SKILL:", newSkill);
+      console.log("📦 UPDATED SKILLS:", updated);
+
+      setSkills(updated);
+      setSkillInput("");
+
+      // 3. salva no volunteer
+      await saveSkills(updated);
+
+    } catch (error) {
+      console.error("❌ Error adding skill:", error);
+    }
+  };
+
+  // =========================
+  // ADD AVAILABILITY
+  // =========================
+  const addAvailability = async () => {
+    if (!day || !period) {
+      console.log("⚠️ day ou period vazio");
+      return;
+    }
+
+    const newItem = { day, period };
+
+    console.log("📤 ADD AVAILABILITY:", newItem);
+
+    const updated = [...avaliabilities, newItem];
+    setAvaliabilities(updated);
+
+    setDay("");
+    setPeriod("");
+
+    try {
+      const res = await axios.post(
+        "http://localhost:8000/api/availability/list_create_view/",
+        newItem,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("✅ AVAILABILITY SAVED:", res.data);
+    } catch (error) {
+      console.error(
+        "❌ ERROR SAVING AVAILABILITY:",
+        error.response?.status,
+        error.response?.data || error.message
+      );
+    }
+  };
+
+  // =========================
+  // UI
+  // =========================
   return (
     <div className="flex">
-      {/* Sidebar */}
       <Sidebar />
 
-      {/* Conteúdo */}
       <div className="ml-64 w-full min-h-screen bg-gray-50 flex flex-col">
-        
-        {/* MAIN cresce */}
-        <main className="w-full px-8 py-6 flex-grow">
+        <main className="px-8 py-6 flex-grow">
 
-          {/* Banner */}
-          <div className="h-32 w-full rounded-2xl bg-gradient-to-r from-purple-400 via-purple-500 to-teal-400 mb-8"></div>
+          <div className="bg-white p-6 rounded-2xl shadow mb-8">
+            <h2 className="text-2xl font-bold">
+              {localStorage.getItem("username")}
+            </h2>
 
-          {/* Info */}
-          <div className="flex justify-between items-center mb-10 flex-wrap gap-4">
-            <div className="flex items-center gap-4">
-              <div className="w-20 h-20 bg-gray-300 rounded-full"></div>
-              <div>
-                <h2 className="text-2xl font-bold text-gray-800">Lorem Ipsum</h2>
-                <p className="text-gray-500">lorem@email.com</p>
-              </div>
-            </div>
-
-            <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
-              Edit Profile
-            </button>
+            <p className="text-gray-500 mt-2">
+              {volunteer?.context || "No description"}
+            </p>
           </div>
 
-          {/* FORM */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {[
-              { label: "Full Name", placeholder: "Your Name" },
-              { label: "Nickname", placeholder: "Your Nickname" },
-              { label: "Gender", placeholder: "Select", select: true },
-              { label: "Profession", placeholder: "Select", select: true },
-              { label: "Language", placeholder: "Select", select: true },
-              { label: "Time Zone", placeholder: "Select", select: true },
-            ].map((field, idx) => (
-              <div key={idx} className="flex flex-col gap-2">
-                <label className="text-gray-700 text-sm font-medium">
-                  {field.label}
-                </label>
+          {/* SKILLS */}
+          <div className="bg-white p-6 rounded-2xl shadow mb-8">
+            <h3 className="text-xl font-bold mb-4">Skills</h3>
 
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder={field.placeholder}
-                    className="w-full bg-white shadow-sm rounded-xl py-3 px-4 focus:ring-2 focus:ring-blue-500 outline-none"
-                  />
+            <div className="flex gap-2 mb-4">
+              <input
+                value={skillInput}
+                onChange={(e) => setSkillInput(e.target.value)}
+                placeholder="Add skill"
+                className="border p-2 rounded w-full"
+              />
 
-                  {field.select && (
-                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-                  )}
+              <button
+                onClick={addSkill}
+                className="bg-blue-600 text-white px-4 rounded"
+              >
+                Add
+              </button>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {skills.map((skill, index) => (
+                <span
+                  key={index}
+                  className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full"
+                >
+                  {skill.name}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* AVAILABILITY */}
+          <div className="bg-white p-6 rounded-2xl shadow mb-8">
+            <h3 className="text-xl font-bold mb-4">Availability</h3>
+
+            <div className="flex gap-2 mb-4">
+              <select
+                value={day}
+                onChange={(e) => setDay(e.target.value)}
+                className="border p-2 rounded"
+              >
+                <option value="">Day</option>
+                <option value="mon">Monday</option>
+                <option value="tue">Tuesday</option>
+                <option value="wed">Wednesday</option>
+                <option value="thu">Thursday</option>
+                <option value="fri">Friday</option>
+                <option value="sat">Saturday</option>
+                <option value="sun">Sunday</option>
+              </select>
+
+              <select
+                value={period}
+                onChange={(e) => setPeriod(e.target.value)}
+                className="border p-2 rounded"
+              >
+                <option value="">Period</option>
+                <option value="morning">Morning</option>
+                <option value="afternoon">Afternoon</option>
+                <option value="evening">Evening</option>
+              </select>
+
+              <button
+                onClick={addAvailability}
+                className="bg-green-600 text-white px-4 rounded"
+              >
+                Add
+              </button>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              {avaliabilities.map((a, index) => (
+                <div key={index} className="bg-gray-100 p-2 rounded">
+                  {a.day} - {a.period}
                 </div>
-              </div>
-            ))}
-          </div>
-
-          {/* EMAIL */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm">
-            <h3 className="font-bold text-gray-800 mb-4">
-              My Email Address
-            </h3>
-
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-blue-100 rounded-full text-blue-600">
-                <Mail className="w-5 h-5" />
-              </div>
-
-              <div>
-                <p className="text-sm font-medium text-gray-700">
-                  alexarowles@gmail.com
-                </p>
-                <p className="text-xs text-gray-400">1 month ago</p>
-              </div>
+              ))}
             </div>
-
-            <button className="flex items-center gap-2 text-blue-600 bg-blue-100 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-blue-200 transition">
-              <Plus className="w-4 h-4" />
-              Add Email Address
-            </button>
           </div>
 
         </main>
 
-        {/* Footer sempre no final */}
         <Footer />
       </div>
     </div>
