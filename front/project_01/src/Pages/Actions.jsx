@@ -44,7 +44,6 @@ export function Actions() {
             key={action.id}
             title={action.title}
             image={action.image}
-            id={action.id}
           />
         ))}
       </div>
