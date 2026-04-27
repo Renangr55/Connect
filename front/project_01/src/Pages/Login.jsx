@@ -47,8 +47,7 @@ export function Login({
   const loginUserSchema = z.object({
     username: z
       .string()
-      .nonempty("Username is required")
-      .regex(/^[A-Za-z]+$/i, "Only letters are allowed"),
+      .nonempty("Username is required"),
     password: z.string().nonempty("Password is required"),
   });
 
@@ -63,7 +62,7 @@ export function Login({
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/token/token_obtain/",
+        "http://localhost:8000/api/token/token_obtain",
         data,
       );
 

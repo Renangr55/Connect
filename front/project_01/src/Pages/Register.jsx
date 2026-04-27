@@ -7,14 +7,15 @@ import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup";
 import connectImage from "../assets/Connect_2.png";
+import { useState } from "react";
 
 export function Register() {
   const navigate = useNavigate();
 
+  const [isVolunteer, setIsVolunteer] = useState(false);
   const registerSchema = z.object({
     username: z.string().min(3, "Minimum 3 characters"),
     password: z.string().min(4, "Minimum 4 characters"),
-    is_volunteer: z.boolean().optional(),
   });
 
   const {
@@ -27,22 +28,30 @@ export function Register() {
 
   const onSubmit = async (data) => {
     try {
-      await axios.post(
+      const payload = {
+        username: data.username,
+        password: data.password,
+        role: isVolunteer ? "volunteer" : "institution",
+      };
+
+      console.log(payload);
+
+      const response = await axios.post(
         "http://127.0.0.1:8000/api/custom_user/list_create_view",
-        data
+        payload,
       );
 
-      alert("User created successfully!");
-      navigate("/login");
+      console.log(response.data);
+
+      alert("User created suscessfully!");
+      navigate("/");
     } catch (error) {
       console.error(error.response?.data);
-      alert("Error creating user");
     }
   };
 
   return (
     <div className="min-h-screen flex justify-center flex-col items-center">
-      
       {/* LOGO */}
       <img className="h-20 w-50 mb-4" src={connectImage} />
 
@@ -55,11 +64,10 @@ export function Register() {
         <h1 className="text-2xl font-bold text-center">Register</h1>
 
         {/* USERNAME */}
-        <label><strong>Name</strong></label>
-        <input
-          {...register("username")}
-          className="bg-white p-2 text-black"
-        />
+        <label>
+          <strong>Name</strong>
+        </label>
+        <input {...register("username")} className="bg-white p-2 text-black" />
         {errors.username && (
           <span className="bg-red-600 p-1 rounded text-sm">
             {errors.username.message}
@@ -67,7 +75,9 @@ export function Register() {
         )}
 
         {/* PASSWORD */}
-        <label><strong>Password</strong></label>
+        <label>
+          <strong>Password</strong>
+        </label>
         <input
           {...register("password")}
           type="password"
@@ -84,7 +94,8 @@ export function Register() {
           <FormControlLabel
             control={
               <Switch
-                {...register("is_volunteer")}
+                checked={isVolunteer}
+                onChange={(e) => setIsVolunteer(e.target.checked)}
                 sx={{
                   "& .MuiSwitch-switchBase.Mui-checked": {
                     color: "#fff",
