@@ -8,6 +8,7 @@ import { Actions } from "../Pages/Actions";
 import NotificationsPage from "../Pages/NotificationsPage";
 import Profile from "../Pages/profile";
 import { PrivateRoute } from "./PrivateRoute";
+import ActionsCRUD from "../Pages/ActionsCRUD";
 
 function Routing() {
   return (
@@ -16,6 +17,8 @@ function Routing() {
         {/* públicas */}
         <Route path="/" element={<Login />} />
         <Route path="/register/" element={<Register />} />
+
+        <Route path="/actions-crud" element={<ActionsCRUD />} />
 
         {/* protegidas */}
         <Route
