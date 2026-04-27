@@ -13,6 +13,7 @@ class AvaliabilitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Avaliability
         fields = "__all__"
+        read_only_fields = ["volunteer"]
 
 
 class VolunteerSerializer(serializers.ModelSerializer):
