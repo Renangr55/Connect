@@ -7,18 +7,61 @@ import { Chatbot } from "../Pages/Chatbot";
 import { Actions } from "../Pages/Actions";
 import NotificationsPage from "../Pages/NotificationsPage";
 import Profile from "../Pages/profile";
+import { PrivateRoute } from "./PrivateRoute";
 
 function Routing() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* públicas */}
         <Route path="/" element={<Login />} />
         <Route path="/register/" element={<Register />} />
-        <Route path="/home/" element={<Home />} />
-        <Route path="/watson/" element={<Chatbot />} />
-        <Route path="/notifications/" element={<NotificationsPage />} />
-        <Route path="/profile/" element={<Profile />} />
-        <Route path="/actions" element={<Actions />}></Route>
+
+        {/* protegidas */}
+        <Route
+          path="/home/"
+          element={
+            <PrivateRoute>
+              <Home />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/watson/"
+          element={
+            <PrivateRoute>
+              <Chatbot />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/notifications/"
+          element={
+            <PrivateRoute>
+              <NotificationsPage />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/profile/"
+          element={
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/actions"
+          element={
+            <PrivateRoute>
+              <Actions />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

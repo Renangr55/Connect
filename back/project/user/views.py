@@ -15,11 +15,23 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 # 🔐 LOGIN (JWT CUSTOM)
 # =========================
 class CustomTokenSerializer(TokenObtainPairSerializer):
+    
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # 👇 coloca dentro do token
+        token['username'] = user.username
+        token['role'] = user.role
+
+        return token
+
     def validate(self, attrs):
         data = super().validate(attrs)
 
-        data['role'] = self.user.role
+        # 👇 coloca na resposta também
         data['username'] = self.user.username
+        data['role'] = self.user.role
 
         return data
 
