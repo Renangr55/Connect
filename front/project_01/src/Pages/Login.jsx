@@ -42,7 +42,7 @@ export function Login({
         console.error("Error", error);
       }
     }
-  });
+  }, []);
 
   const loginUserSchema = z.object({
     username: z
@@ -73,8 +73,9 @@ export function Login({
 
       console.log(decoded);
 
-      localStorage.setItem("access", access);
-      localStorage.setItem("refresh", decoded.role);
+      localStorage.setItem("access", response.data.access);
+      localStorage.setItem("refresh", response.data.refresh);
+      localStorage.setItem("role", decoded.role);
 
       console.log("Login success:", response.data);
 
