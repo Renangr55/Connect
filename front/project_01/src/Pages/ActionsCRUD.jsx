@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useEffect } from "react";
 
 export default function ActionsCRUD() {
   const token = localStorage.getItem("access");
@@ -24,6 +25,34 @@ export default function ActionsCRUD() {
 
   const [preview, setPreview] = useState(null);
 
+
+  // =========================
+  // LISTAR ACTIONS
+  // =========================
+  async function fetchActions() {
+    try {
+      const res = await axios.get(
+        "http://localhost:8000/api/action/list_create_view",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setActions(res.data.results || res.data);
+    } catch (err) {
+      console.error("❌ ERROR FETCHING ACTIONS:", err.response?.data || err.message);
+    }
+  }
+
+  useEffect(() => {
+    fetchActions();
+  }, []);
+
+  // =========================
+  // INPUTS
+  // =========================
   // 🔹 HANDLE INPUT
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -39,7 +68,9 @@ export default function ActionsCRUD() {
     }
   }
 
-  // 🔹 SUBMIT
+  // =========================
+  // CREATE / UPDATE
+  // =========================
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -98,7 +129,8 @@ export default function ActionsCRUD() {
       });
 
       setPreview(null);
-    } catch (error) {
+
+  } catch (error) {
       console.error("ERRO:", error.response?.data || error);
     }
   }
@@ -137,6 +169,7 @@ export default function ActionsCRUD() {
           onChange={handleChange}
           className="w-full p-3 mb-3 bg-gray-100 rounded-lg"
         />
+
 
         {/* SKILLS */}
         <input
@@ -227,6 +260,7 @@ export default function ActionsCRUD() {
           Create Action
         </button>
       </form>
+
     </div>
   );
 }

@@ -1,6 +1,7 @@
 from django.db import models
 
 # Create your models here.
+#skils models
 class Skills (models.Model):
     name = models.CharField(max_length=100)
     skills_description = models.TextField(max_length=100)

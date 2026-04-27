@@ -10,14 +10,24 @@ export function Actions() {
   useEffect(() => {
     async function fetchActions() {
       try {
+        const token = localStorage.getItem("access_token");
+
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/action/list_create_view"
+          "http://localhost:8000/api/action/list_create_view",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
+
+        console.log("ACTIONS RESPONSE:", response.data);
 
         const data = response.data.results || response.data;
         setActions(data);
+
       } catch (error) {
-        console.error(error);
+        console.error("ERROR LOADING ACTIONS:", error.response?.data || error.message);
       }
     }
 
@@ -26,8 +36,6 @@ export function Actions() {
 
   return (
     <div className="p-6">
-      
-      {/* 🔥 BOTÃO IR PARA CRUD */}
       <div className="flex justify-end mb-4">
         <button
           onClick={() => navigate("/actions-crud")}
@@ -37,13 +45,13 @@ export function Actions() {
         </button>
       </div>
 
-      {/* LISTA DE CARDS */}
       <div className="flex flex-wrap gap-4">
         {actions.map((action) => (
           <Card
             key={action.id}
             title={action.title}
-            image={action.image}
+            image={action.image || "no image"}
+            id={action.id}
           />
         ))}
       </div>

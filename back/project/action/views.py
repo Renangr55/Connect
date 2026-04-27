@@ -18,7 +18,7 @@ class ActionListCreateAPIView(ListCreateAPIView):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         
-        # Valida os dados antes de tentar salvar
+        # Validate the data
         if serializer.is_valid():
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
@@ -37,7 +37,7 @@ class ActionListCreateAPIView(ListCreateAPIView):
 
    
         
-
+#Action
 class ActionRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Action.objects.all()
     permission_classes = [IsAuthenticated]
@@ -95,7 +95,8 @@ class AddressListCreateAPIView(ListCreateAPIView):
             "errors": serializer.errors # Detalhes da validação
         }, status=status.HTTP_400_BAD_REQUEST)
    
-        
+
+#address
 class AddressRetrieveUpdateDestroyAPIView(ListCreateAPIView):
     queryset = Address.objects.all()
     permission_classes = [IsAuthenticated]

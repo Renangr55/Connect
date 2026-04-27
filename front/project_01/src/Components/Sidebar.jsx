@@ -41,7 +41,7 @@ function Sidebar() {
             <Link to="/profile/" className="hover:text-blue-500">Profile</Link>
             <Link to="/notifications/" className="hover:text-blue-500">Notification</Link>
             <Link to="/watson/" className="hover:text-blue-500">Chat</Link>
-            <Link to="/actions" className="hover:text-blue-500">Action</Link>
+            <Link to="/actions/" className="hover:text-blue-500">Action</Link>
           </section>
         </nav>
       </div>

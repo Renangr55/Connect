@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 
+#adress model
 class Address(models.Model):
     country = models.ForeignKey('cities_light.Country',on_delete=models.SET_NULL,null=True,blank=False)
     city = models.ForeignKey('cities_light.City',on_delete=models.SET_NULL,null=True,blank=False)
@@ -13,6 +14,7 @@ class Address(models.Model):
     def __str__(self):
         return f"{self.country} - {self.city} - {self.neighborhood} - {self.street} - {self.number} - {self.description_address}"
 
+# Action Models
 class Action (models.Model):
     title = models.CharField(max_length=150)
     required_skills = models.ManyToManyField('skills.Skills',)

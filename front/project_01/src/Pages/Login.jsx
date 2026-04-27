@@ -31,12 +31,10 @@ export function Login() {
 
       const { access, refresh, role } = response.data;
 
-      // 🔐 salva tokens e dados
       localStorage.setItem("access_token", access);
       localStorage.setItem("refresh_token", refresh);
       localStorage.setItem("role", role);
 
-      // 👇 salva username (ESSENCIAL)
       localStorage.setItem("username", data.username);
       console.log(localStorage.getItem("access_token"));
       navigate("/home");
