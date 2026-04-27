@@ -1,44 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
-export function ActionsCRUD() {
-  const [actions, setActions] = useState([]);
+export default function ActionsCRUD() {
+  const token = localStorage.getItem("access");
+
   const [form, setForm] = useState({
     title: "",
     description: "",
+    date: "",
     image: null,
+
+    // ADDRESS
+    country: "",
+    city: "",
+    neighborhood: "",
+    street: "",
+    number: "",
+    description_address: "",
+
+    // RELATIONS
+    required_skills: "", // pode ser "1,2,3"
   });
+
   const [preview, setPreview] = useState(null);
-  const [editingId, setEditingId] = useState(null);
 
-  const token = localStorage.getItem("access");
-
-  // 🔹 LISTAR
-  async function fetchActions() {
-    const res = await axios.get(
-      "http://localhost:8000/api/action/list_create_view",
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-
-    setActions(res.data.results || res.data);
-  }
-
-  useEffect(() => {
-    fetchActions();
-  }, []);
-
-  // 🔹 INPUT
+  // 🔹 HANDLE INPUT
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
+  // 🔹 HANDLE IMAGE
   function handleImage(e) {
     const file = e.target.files[0];
-    setForm({ ...form, image: file });
 
     if (file) {
+      setForm({ ...form, image: file });
       setPreview(URL.createObjectURL(file));
     }
   }
@@ -48,83 +44,74 @@ export function ActionsCRUD() {
     e.preventDefault();
 
     const formData = new FormData();
+
+    // ACTION
     formData.append("title", form.title);
     formData.append("description", form.description);
+    formData.append("date", form.date);
 
+    // ADDRESS (achatado)
+    formData.append("localization.country", form.country);
+    formData.append("localization.city", form.city);
+    formData.append("localization.neighborhood", form.neighborhood);
+    formData.append("localization.street", form.street);
+    formData.append("localization.number", form.number);
+    formData.append(
+      "localization.description_address",
+      form.description_address,
+    );
+
+    // SKILLS (ex: "1,2,3")
+    formData.append("required_skills", form.required_skills);
+
+    // IMAGE
     if (form.image) {
       formData.append("image", form.image);
     }
 
     try {
-      if (editingId) {
-        await axios.patch(
-          `http://localhost:8000/api/action/retrive_update_delete/${editingId}/`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-      } else {
-        await axios.post(
-          "http://localhost:8000/api/action/list_create_view",
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-      }
+      await axios.post(
+        "http://localhost:8000/api/action/list_create_view",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
 
-      setForm({ title: "", description: "", image: null });
+      alert("Action criada 🚀");
+
+      // RESET
+      setForm({
+        title: "",
+        description: "",
+        date: "",
+        image: null,
+        country: "",
+        city: "",
+        neighborhood: "",
+        street: "",
+        number: "",
+        description_address: "",
+        required_skills: "",
+      });
+
       setPreview(null);
-      setEditingId(null);
-      fetchActions();
-    } catch (err) {
-      console.error(err.response?.data);
+    } catch (error) {
+      console.error("ERRO:", error.response?.data || error);
     }
   }
 
-  // 🔹 EDIT
-  function handleEdit(action) {
-    setForm({
-      title: action.title,
-      description: action.description,
-      image: null,
-    });
-    setPreview(`http://localhost:8000${action.image}`);
-    setEditingId(action.id);
-  }
-
-  // 🔹 DELETE
-  async function handleDelete(id) {
-    await axios.delete(
-      `http://localhost:8000/api/action/retrive_update_delete/${id}/`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-
-    fetchActions();
-  }
-
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold mb-6">Actions Dashboard</h1>
-
-      {/* FORM */}
+    <div className="min-h-screen bg-gray-100 p-6 flex justify-center">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-2xl shadow-md max-w-xl mb-8"
+        className="bg-white p-6 rounded-2xl shadow-md w-full max-w-2xl"
       >
-        <h2 className="text-xl font-semibold mb-4">
-          {editingId ? "Edit Action" : "Create Action"}
-        </h2>
+        <h1 className="text-2xl font-bold mb-4">Create Action</h1>
 
+        {/* TITLE */}
         <input
           name="title"
           value={form.title}
@@ -133,6 +120,7 @@ export function ActionsCRUD() {
           className="w-full p-3 mb-3 bg-gray-100 rounded-lg"
         />
 
+        {/* DESCRIPTION */}
         <textarea
           name="description"
           value={form.description}
@@ -141,60 +129,104 @@ export function ActionsCRUD() {
           className="w-full p-3 mb-3 bg-gray-100 rounded-lg"
         />
 
-        <input type="file" onChange={handleImage} />
+        {/* DATE */}
+        <input
+          type="datetime-local"
+          name="date"
+          value={form.date}
+          onChange={handleChange}
+          className="w-full p-3 mb-3 bg-gray-100 rounded-lg"
+        />
 
-        {preview && (
-          <img
-            src={preview}
-            alt="preview"
-            className="mt-3 h-40 w-full object-cover rounded-lg"
-          />
-        )}
+        {/* SKILLS */}
+        <input
+          name="required_skills"
+          value={form.required_skills}
+          onChange={handleChange}
+          placeholder="Skill IDs (ex: 1,2,3)"
+          className="w-full p-3 mb-3 bg-gray-100 rounded-lg"
+        />
 
+        {/* ADDRESS */}
+        <h2 className="font-bold mt-4 mb-2">Address</h2>
+
+        <input
+          name="country"
+          value={form.country}
+          onChange={handleChange}
+          placeholder="Country ID"
+          className="w-full p-3 mb-2 bg-gray-100 rounded-lg"
+        />
+
+        <input
+          name="city"
+          value={form.city}
+          onChange={handleChange}
+          placeholder="City ID"
+          className="w-full p-3 mb-2 bg-gray-100 rounded-lg"
+        />
+
+        <input
+          name="neighborhood"
+          value={form.neighborhood}
+          onChange={handleChange}
+          placeholder="Neighborhood"
+          className="w-full p-3 mb-2 bg-gray-100 rounded-lg"
+        />
+
+        <input
+          name="street"
+          value={form.street}
+          onChange={handleChange}
+          placeholder="Street"
+          className="w-full p-3 mb-2 bg-gray-100 rounded-lg"
+        />
+
+        <input
+          name="number"
+          value={form.number}
+          onChange={handleChange}
+          placeholder="Number"
+          className="w-full p-3 mb-2 bg-gray-100 rounded-lg"
+        />
+
+        <textarea
+          name="description_address"
+          value={form.description_address}
+          onChange={handleChange}
+          placeholder="Address description"
+          className="w-full p-3 mb-3 bg-gray-100 rounded-lg"
+        />
+
+        {/* IMAGE BUTTON */}
+        <div className="flex flex-col gap-3">
+          <label className="cursor-pointer border-2 border-dashed border-gray-400 p-6 rounded-xl text-center hover:bg-gray-100 transition">
+            <p className="text-gray-600 font-medium">
+              {preview ? "Change Image" : "Upload Image"}
+            </p>
+
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImage}
+              className="hidden"
+            />
+          </label>
+
+          {preview && (
+            <img
+              src={preview}
+              alt="preview"
+              className="h-40 w-full object-cover rounded-lg"
+            />
+          )}
+        </div>
+
+        {/* SUBMIT */}
         <button className="mt-4 w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700">
-          {editingId ? "Update" : "Create"}
+          Create Action
         </button>
       </form>
-
-      {/* LIST */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {actions.map((action) => (
-          <div
-            key={action.id}
-            className="bg-white rounded-2xl shadow-md overflow-hidden"
-          >
-            <img
-              src={`http://localhost:8000${action.image}`}
-              className="h-40 w-full object-cover"
-            />
-
-            <div className="p-4">
-              <h2 className="font-bold text-lg">{action.title}</h2>
-              <p className="text-sm text-gray-600">
-                {action.description}
-              </p>
-
-              <div className="flex gap-2 mt-4">
-                <button
-                  onClick={() => handleEdit(action)}
-                  className="flex-1 bg-yellow-400 p-2 rounded"
-                >
-                  Edit
-                </button>
-
-                <button
-                  onClick={() => handleDelete(action.id)}
-                  className="flex-1 bg-red-500 text-white p-2 rounded"
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }
-
-export default ActionsCRUD;
