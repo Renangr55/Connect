@@ -1,28 +1,24 @@
 import React from "react";
 import { Link } from "react-router";
-import image_connect from "../assets/people.png";
 import image_people from "../assets/Connect_2.png";
-import { PiDotsThreeCircleLight } from "react-icons/pi";
-import { TbMessageChatbot } from "react-icons/tb";
-import { IoNotifications } from "react-icons/io5";
-import { IoMdHome } from "react-icons/io";
-import { CgProfile } from "react-icons/cg";
-
 
 function Sidebar() {
   return (
-    <div className="w-50% min-h-screen m-5">
-      <section className="flex flex-col">
-        <img className="w-50 h-20" src={image_people}></img>
+    <div className="fixed top-0 left-0 w-64 h-screen bg-white shadow-lg p-4">
+      
+      {/* Logo */}
+      <section className="mb-10">
+        <img className="w-full h-auto" src={image_people} alt="Logo" />
       </section>
-      <nav className="flex flex-col">
-        <section className="flex flex-col">
-            <Link to="/home/">Home</Link>
-            <Link to="/profile/">Profile</Link>
-            <Link to="/notifications/">Notification</Link>
-            <Link to="/watson/">Chat</Link>
-            <Link to="/dashboard">Action</Link>
-            
+
+      {/* Navigation */}
+      <nav>
+        <section className="flex flex-col gap-4 text-lg">
+          <Link to="/home/" className="hover:text-blue-500">Home</Link>
+          <Link to="/profile/" className="hover:text-blue-500">Profile</Link>
+          <Link to="/notifications/" className="hover:text-blue-500">Notification</Link>
+          <Link to="/watson/" className="hover:text-blue-500">Chat</Link>
+          <Link to="/dashboard" className="hover:text-blue-500">Action</Link>
         </section>
       </nav>
     </div>
