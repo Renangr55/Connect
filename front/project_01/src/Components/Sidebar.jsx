@@ -8,6 +8,7 @@ import { IoNotifications } from "react-icons/io5";
 import { IoMdHome } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
 
+
 function Sidebar() {
   return (
     <div className="w-50% min-h-screen m-5">
@@ -17,9 +18,9 @@ function Sidebar() {
       <nav className="flex flex-col">
         <section className="flex flex-col">
             <Link to="/home/">Home</Link>
-            <Link to="/dashboard">Profile</Link>
+            <Link to="/profile/">Profile</Link>
             <Link to="/notifications/">Notification</Link>
-            <Link to="/dashboard">Chat</Link>
+            <Link to="/watson/">Chat</Link>
             <Link to="/dashboard">Action</Link>
             
         </section>

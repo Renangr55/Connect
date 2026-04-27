@@ -5,7 +5,8 @@ import { Register } from "../Pages/Register";
 import { Home } from "../Pages/Home";
 import { Chatbot } from "../Pages/Chatbot";
 import NotificationsPage from "../Pages/NotificationsPage"
-import Header from "../Components/Header";
+import Profile from "../Pages/profile";
+
 
 function Routing() {
   return (
@@ -17,6 +18,7 @@ function Routing() {
         <Route path="/home/" element={<Home />} />
         <Route path="/watson/" element={<Chatbot/>} />
         <Route path="/notifications/" element={<NotificationsPage/>} />
+        <Route path="/profile/" element={<Profile/>} />
 
       </Routes>
     </BrowserRouter>

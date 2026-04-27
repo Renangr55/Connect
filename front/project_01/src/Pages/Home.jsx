@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "../Components/Header";
 import Sidebar from "../Components/Sidebar";
 import { useNavigate } from "react-router";
 import { ActionCard } from "../Components/ActionCard";
@@ -33,11 +32,10 @@ export function Home() {
 
   return (
     <>
-      <Header />
       <div className="flex flex-row ">
         <Sidebar />
-        <main className="flex items-center w-full bg-amber-200">
-          <div className="flex flex-col">
+        <main className="flex items-start w-full pt-10">
+          <div className="flex flex-col w-full bg-amber-800">
             <section className="bg-linear-to-r w-full p-10 h-100 from-[#279A94] to-[#C673EC] flex flex-col gap-5 text-white">
               <h1 className="text-6xl font-bold">Became a Voluntary</h1>
               <h1 className="text-6xl font-bold">Helping in Actions</h1>
