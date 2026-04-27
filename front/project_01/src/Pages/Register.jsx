@@ -1,18 +1,16 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Switch from "@mui/material/Switch";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormGroup from "@mui/material/FormGroup";
 import connectImage from "../assets/Connect_2.png";
 import { useState } from "react";
 
 export function Register() {
   const navigate = useNavigate();
-
   const [isVolunteer, setIsVolunteer] = useState(false);
+
   const registerSchema = z.object({
     username: z.string().min(3, "Minimum 3 characters"),
     password: z.string().min(4, "Minimum 4 characters"),
@@ -34,105 +32,70 @@ export function Register() {
         role: isVolunteer ? "volunteer" : "institution",
       };
 
-      console.log(payload);
-
-      const response = await axios.post(
+      await axios.post(
         "http://127.0.0.1:8000/api/custom_user/list_create_view",
-        payload,
+        payload
       );
 
-      console.log(response.data);
-
-      alert("User created suscessfully!");
+      alert("User created successfully!");
       navigate("/");
     } catch (error) {
-      console.error(error.response?.data);
+      alert("Error creating user");
     }
   };
 
   return (
-    <div className="min-h-screen flex justify-center flex-col items-center">
-      {/* LOGO */}
-      <img className="h-20 w-50 mb-4" src={connectImage} />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#279A94] to-[#C673EC]">
+      <div className="bg-white rounded-2xl shadow-lg p-8 w-96">
+        <img className="h-16 mx-auto mb-4" src={connectImage} />
 
-      {/* FORM */}
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="p-6 flex flex-col gap-4 text-white 
-        bg-gradient-to-t from-[#279A94] to-[#C673EC] rounded-md w-96"
-      >
-        <h1 className="text-2xl font-bold text-center">Register</h1>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
+          <h1 className="text-2xl font-bold text-center">Register</h1>
 
-        {/* USERNAME */}
-        <label>
-          <strong>Name</strong>
-        </label>
-        <input {...register("username")} className="bg-white p-2 text-black" />
-        {errors.username && (
-          <span className="bg-red-600 p-1 rounded text-sm">
-            {errors.username.message}
-          </span>
-        )}
-
-        {/* PASSWORD */}
-        <label>
-          <strong>Password</strong>
-        </label>
-        <input
-          {...register("password")}
-          type="password"
-          className="bg-white p-2 text-black"
-        />
-        {errors.password && (
-          <span className="bg-red-600 p-1 rounded text-sm">
-            {errors.password.message}
-          </span>
-        )}
-
-        {/* SWITCH BONITO */}
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={isVolunteer}
-                onChange={(e) => setIsVolunteer(e.target.checked)}
-                sx={{
-                  "& .MuiSwitch-switchBase.Mui-checked": {
-                    color: "#fff",
-                  },
-                  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-                    background: "#6a1b9a",
-                  },
-                  "& .MuiSwitch-track": {
-                    background: "#ccc",
-                  },
-                }}
-              />
-            }
-            label="Voluntário"
+          <label>Username</label>
+          <input
+            {...register("username")}
+            className="bg-gray-200 p-2 rounded-lg"
           />
-        </FormGroup>
+          {errors.username && <span>{errors.username.message}</span>}
 
-        {/* BOTÕES */}
-        <div className="flex flex-col items-center gap-3 mt-2">
-          <button
-            type="submit"
-            className="h-10 w-50 bg-black font-bold 
-            hover:scale-110 transition"
-          >
+          <label>Password</label>
+          <input
+            {...register("password")}
+            type="password"
+            className="bg-gray-200 p-2 rounded-lg"
+          />
+          {errors.password && <span>{errors.password.message}</span>}
+
+          {/* SWITCH UX */}
+          <div className="flex items-center justify-between mt-2">
+            <span className={!isVolunteer ? "font-bold" : "text-gray-400"}>
+              Institution
+            </span>
+
+            <Switch
+              checked={isVolunteer}
+              onChange={(e) => setIsVolunteer(e.target.checked)}
+            />
+
+            <span className={isVolunteer ? "font-bold" : "text-gray-400"}>
+              Voluntary
+            </span>
+          </div>
+
+          <button className="bg-black text-white h-10 rounded-lg mt-3">
             Register
           </button>
 
           <button
             type="button"
             onClick={() => navigate("/")}
-            className="h-10 w-50 border border-white 
-            hover:bg-[#279A94] transition"
+            className="border h-10 rounded-lg"
           >
-            I have Login
+            I have login
           </button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }
