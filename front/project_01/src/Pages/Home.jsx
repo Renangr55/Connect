@@ -46,7 +46,7 @@ export function Home() {
                   navigate("/");
                 }}
               >
-                Conheçam aqui
+                Known Here!
               </button>
             </section>
             <section className="w-full flex flex-col justify-center text-center items-center">

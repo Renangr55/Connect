@@ -42,13 +42,12 @@ export function Login({
         console.error("Error", error);
       }
     }
-  });
+  }, []);
 
   const loginUserSchema = z.object({
     username: z
       .string()
-      .nonempty("Username is required")
-      .regex(/^[A-Za-z]+$/i, "Only letters are allowed"),
+      .nonempty("Username is required"),
     password: z.string().nonempty("Password is required"),
   });
 
@@ -63,7 +62,7 @@ export function Login({
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/token/token_obtain/",
+        "http://localhost:8000/api/token/token_obtain",
         data,
       );
 
@@ -73,8 +72,9 @@ export function Login({
 
       console.log(decoded);
 
-      localStorage.setItem("access", access);
-      localStorage.setItem("refresh", decoded.role);
+      localStorage.setItem("access", response.data.access);
+      localStorage.setItem("refresh", response.data.refresh);
+      localStorage.setItem("role", decoded.role);
 
       console.log("Login success:", response.data);
 
