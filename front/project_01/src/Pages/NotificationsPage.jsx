@@ -79,7 +79,6 @@ function NotificationsPage() {
 
   return (
     <>
-      <Header />
 
       <div className="flex min-h-screen bg-[#DCDCDC]">
         <aside className="w-[250px] bg-white">
