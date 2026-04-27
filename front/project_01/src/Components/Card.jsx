@@ -26,13 +26,11 @@ function Card({ id, title, image, horizontal = false }) {
 
   return (
     <>
-      {/* CARD */}
       <div
         className={`relative overflow-hidden rounded-2xl shadow-md ${
           horizontal ? "h-48 w-full" : "h-48 w-72"
         }`}
       >
-        {/* IMAGEM */}
         <img
           src={
             image
@@ -43,10 +41,8 @@ function Card({ id, title, image, horizontal = false }) {
           className="absolute inset-0 w-full h-full object-cover"
         />
 
-        {/* OVERLAY */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 
-        {/* TEXTO */}
         <div className="absolute bottom-4 left-4 text-white">
           <h2 className="text-xl font-bold">{title}</h2>
 
@@ -65,15 +61,14 @@ function Card({ id, title, image, horizontal = false }) {
         </div>
       </div>
 
-      {/* ✅ MODAL INLINE */}
       {open && (
         <div
           className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-          onClick={() => setOpen(false)} // fecha ao clicar fora
+          onClick={() => setOpen(false)} 
         >
           <div
             className="bg-white rounded-2xl p-6 w-96 shadow-lg relative"
-            onClick={(e) => e.stopPropagation()} // evita fechar ao clicar dentro
+            onClick={(e) => e.stopPropagation()} 
           >
             <h2 className="text-lg font-bold mb-2">{title}</h2>
 
