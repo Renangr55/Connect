@@ -125,7 +125,7 @@ export function Register() {
 
           <button
             type="button"
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/")}
             className="h-10 w-50 border border-white 
             hover:bg-[#279A94] transition"
           >
