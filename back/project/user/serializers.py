@@ -4,10 +4,15 @@ from .models import CustomUser
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = '__all__'
-        
-        def validate(self, value):
-            if "error" in value:
-                raise serializers.ValidationError("the name don't contains the word 'error'.")
-            return value
+        fields = ['id', 'username', 'password',"role"]
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
 
+    def create(self, validated_data):
+        user = CustomUser.objects.create_user(
+            username=validated_data['username'],
+            password=validated_data['password'],
+            role=validated_data['role']
+        )
+        return user
