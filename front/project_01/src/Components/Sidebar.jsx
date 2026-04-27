@@ -10,43 +10,19 @@ import { CgProfile } from "react-icons/cg";
 
 function Sidebar() {
   return (
-    <div className="w-full min-h-screen m-5">
+    <div className="w-50% min-h-screen m-5">
       <section className="flex flex-col">
-        <img className="w-50 h-20" src={image_connect}></img>
         <img className="w-50 h-20" src={image_people}></img>
       </section>
       <nav className="flex flex-col">
-        <Link
-          className="flex flex-row items-center transition delay-100 duration-200 ease-in-out hover:scale-110 gap-2"
-          to={"/home"}
-        >
-          <IoMdHome size={20} /> Home
-        </Link>
-        <Link
-          className="flex flex-row items-center transition delay-100 duration-200 ease-in-out hover:scale-110 gap-2"
-          to={"/profile"}
-        >
-          <CgProfile size={20} /> Profile
-        </Link>
-        <Link
-          className="flex flex-row items-center transition delay-100 duration-200 ease-in-out hover:scale-110 gap-2"
-          to={"/notifications"}
-        >
-          <IoNotifications size={20} />
-          Notifi
-        </Link>
-        <Link
-          className="flex flex-row items-center transition delay-100 duration-200 ease-in-out hover:scale-110 gap-2"
-          to={"/chat"}
-        >
-          <TbMessageChatbot size={20} /> Chatbot
-        </Link>
-        <Link
-          className="flex flex-row items-center transition delay-100 duration-200 ease-in-out hover:scale-110 gap-2"
-          to={"?"}
-        >
-          <PiDotsThreeCircleLight size={20} /> Action
-        </Link>
+        <section className="flex flex-col">
+            <Link to="/home/">Home</Link>
+            <Link to="/dashboard">Profile</Link>
+            <Link to="/notifications/">Notification</Link>
+            <Link to="/dashboard">Chat</Link>
+            <Link to="/dashboard">Action</Link>
+            
+        </section>
       </nav>
     </div>
   );

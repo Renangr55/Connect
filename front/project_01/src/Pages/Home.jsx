@@ -36,9 +36,9 @@ export function Home() {
       <Header />
       <div className="flex flex-row ">
         <Sidebar />
-        <main className="min-w-screen pl-6 font-['Barlow_Semi_Condensed'] gap-5 flex items-center">
+        <main className="flex items-center w-full bg-amber-200">
           <div className="flex flex-col">
-            <section className="bg-linear-to-r w-246 p-10 h-100 from-[#279A94] to-[#C673EC] flex flex-col gap-5 text-white">
+            <section className="bg-linear-to-r w-full p-10 h-100 from-[#279A94] to-[#C673EC] flex flex-col gap-5 text-white">
               <h1 className="text-6xl font-bold">Became a Voluntary</h1>
               <h1 className="text-6xl font-bold">Helping in Actions</h1>
               <button

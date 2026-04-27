@@ -95,7 +95,7 @@ function NotificationsPage() {
           </section>
 
           {/* FILTRO */}
-          <section className="h-[54px] bg-white flex items-center justify-between px-10 text-[15px]">
+          <section className="h-[54px] bg-white flex items-center justify-around px-10 text-[15px]">
             <button className="text-[#7650FF]">Todas</button>
 
             <button className="flex items-center gap-2">

@@ -9,7 +9,7 @@ from rest_framework.response import Response
 # Custom user
 class CustomUserListCreateAPIView(ListCreateAPIView):
     queryset = CustomUser.objects.all()
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
     serializer_class = CustomUserSerializer
     
     def create(self, request, *args, **kwargs):
