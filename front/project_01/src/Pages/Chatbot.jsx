@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router";
+import Sidebar from "../Components/Sidebar";
+
 
 export function Chatbot(){
   const [messages, setMessages] = useState([
@@ -53,18 +55,9 @@ export function Chatbot(){
 
       {/* Sidebar */}
       <aside className="w-64 bg-white shadow-md hidden md:block">
-        <div className="p-6">
-          <h1 className="text-2xl font-bold text-blue-600">Connect</h1>
 
-	  <section className="flex flex-col">
-		<Link to="/home/">Home</Link>
-		<Link to="/dashboard">Profile</Link>
-		<Link to="/notifications/">Notification</Link>
-		<Link to="/dashboard">Chat</Link>
-		<Link to="/dashboard">Action</Link>
-		
-	  </section>
-        </div>
+	  <Sidebar />
+
       </aside>
 
       {/* Main */}
