@@ -6,52 +6,72 @@ from .serializers import CustomUserSerializer
 from rest_framework import status
 from rest_framework.response import Response
 
-# Custom user
+# 🔐 JWT
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+
+# =========================
+# 🔐 LOGIN (JWT CUSTOM)
+# =========================
+class CustomTokenSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        data['role'] = self.user.role
+        data['username'] = self.user.username
+
+        return data
+
+
+class CustomTokenView(TokenObtainPairView):
+    serializer_class = CustomTokenSerializer
+
+
+# =========================
+# 👤 USERS
+# =========================
 class CustomUserListCreateAPIView(ListCreateAPIView):
     queryset = CustomUser.objects.all()
-    #permission_classes = [IsAuthenticated]
     serializer_class = CustomUserSerializer
-    
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        
-        # Valida os dados antes de tentar salvar
+
         if serializer.is_valid():
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
-            # Resposta de Sucesso
+
             return Response({
-                "message": "Create with sucess",
+                "message": "Create with success",
                 "data": serializer.data
             }, status=status.HTTP_201_CREATED, headers=headers)
-        
-        # return the error
+
         return Response({
             "message": "Error to create",
-            "errors": serializer.errors # Detalhes da validação
+            "errors": serializer.errors
         }, status=status.HTTP_400_BAD_REQUEST)
-   
-        
 
-    
+
 class CustomUserRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = CustomUser.objects.all()
     permission_classes = [IsAuthenticated]
     serializer_class = CustomUserSerializer
     lookup_field = 'pk'
 
-    
     def destroy(self, request, *args, **kwargs):
         try:
-            isinstance = self.get_object()
-            self.perform_destroy(isinstance)
+            instance = self.get_object()
+            self.perform_destroy(instance)
+
             return Response(
-                {"message","Object deleted with sucess!"},
+                {"message": "Object deleted with success!"},
                 status=status.HTTP_200_OK
             )
+
         except Exception as e:
             return Response(
-                {'error':'Error to delete the object','detail': str(e)},
+                {'error': 'Error to delete the object', 'detail': str(e)},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -59,9 +79,10 @@ class CustomUserRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
         try:
             instance = self.get_object()
             serializer = self.get_serializer(instance)
-            return Response (serializer.data)
+            return Response(serializer.data)
+
         except Exception:
-            return Response (
-                {"error":"object not found or acess error"},
+            return Response(
+                {"error": "object not found or access error"},
                 status=status.HTTP_404_NOT_FOUND
             )
